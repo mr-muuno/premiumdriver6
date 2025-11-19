@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PremiumDriver.fi — Dark Lux Video Fix</title>
+<style>
+:root{
+ --ink:#0b0f14;--gold:#c9a449;--blue:#0c60ff;
+ --font:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:#f5f7fa;font-family:var(--font);overflow-x:hidden}
+a{color:var(--blue);text-decoration:none}
+button{cursor:pointer;font-family:var(--font)}
+
+/* Topbar */
+.topbar{
+ position:fixed;top:0;left:0;right:0;height:60px;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 20px;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);
+ border-bottom:1px solid #1b2738;z-index:10;
+}
+.brand{font-weight:900;font-size:20px;color:#fff}
+.langs button{
+ background:#0f1622;border:1px solid #22314a;color:#e8eef5;
+ border-radius:999px;padding:6px 10px;margin-left:6px;font-weight:600
+}
+.langs button.active{background:var(--blue);border-color:var(--blue)}
+
+/* Hero section */
+.hero{
+ position:relative;height:100vh;display:flex;flex-direction:column;
+ justify-content:center;align-items:center;text-align:center;padding:0 16px;
+}
+.hero video{
+ position:absolute;inset:0;width:100%;height:100%;
+ object-fit:cover;z-index:-2;filter:brightness(0.65);
+}
+.hero::after{
+ content:'';position:absolute;inset:0;
+ background:radial-gradient(1000px 400px at 50% 10%,rgba(12,96,255,.2),transparent 60%),
+ linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.9));z-index:-1;
+}
+.hero h1{
+ font-size:52px;background:linear-gradient(90deg,#fff,#ffe9b0 60%,#fff);
+ -webkit-background-clip:text;color:transparent;text-shadow:0 4px 16px rgba(0,0,0,.55);
+}
+.hero p{max-width:780px;margin-top:12px;font-size:18px;color:#e8eef5;line-height:1.5}
+.cta{
+ margin-top:26px;background:var(--blue);color:#fff;
+ padding:14px 22px;border-radius:14px;font-weight:800;
+ box-shadow:0 4px 18px rgba(12,96,255,.35);transition:.3s;
+}
+.cta:hover{transform:translateY(-3px);box-shadow:0 6px 22px rgba(12,96,255,.55)}
+
+/* Booking */
+#booking{display:none;padding:80px 20px;max-width:900px;margin:0 auto}
+.step{background:#0f1622;border:1px solid #1b2738;border-radius:12px;
+padding:20px;margin-top:20px}
+label{display:block;margin-top:10px;margin-bottom:4px;font-weight:600}
+input,select,textarea{
+ width:100%;padding:10px;border-radius:8px;border:1px solid #22314a;
+ background:#111827;color:#fff;font-size:15px
+}
+textarea{min-height:80px}
+.btnRow{display:flex;gap:10px;margin-top:14px}
+.primary{background:var(--blue);border:none;color:#fff;font-weight:700;padding:12px 20px;border-radius:10px}
+
+/* Footer */
+footer{text-align:center;color:#8aa0b5;padding:30px;border-top:1px solid #172338;margin-top:60px}
+footer a{color:var(--gold);font-weight:700;text-decoration:none;margin-left:8px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">PremiumDriver<span style="color:var(--gold)">.fi</span></div>
+  <div class="langs">
+    <button data-lang="fi" class="active">🇫🇮 FI</button>
+    <button data-lang="en">🇬🇧 EN</button>
+  </div>
+</div>
+
+<section class="hero">
+  <video id="heroVideo" preload="auto" autoplay muted playsinline loop poster="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1920">
+    <source src="https://cdn.coverr.co/videos/coverr-chauffeur-opening-car-door-1080p.mp4" type="video/mp4">
+  </video>
+  <h1 data-fi="Sinun oma kuljettajasi" data-en="Your personal driver">Sinun oma kuljettajasi</h1>
+  <p data-fi="Omistat auton — mutta et aina halua ajaa. PremiumDriver tuo ammattikuljettajan autollesi, missä oletkin."
+     data-en="You own a car — but you don't always want to drive. PremiumDriver brings a professional driver to your car, wherever you are.">
+     Omistat auton — mutta et aina halua ajaa. PremiumDriver tuo ammattikuljettajan autollesi, missä oletkin.
+  </p>
+  <button id="bookNow" class="cta" data-fi="Varaa nyt" data-en="Book now">Varaa nyt</button>
+</section>
+
+<section id="booking">
+  <div class="step">
+    <h2 data-fi="Varaustiedot" data-en="Booking details">Varaustiedot</h2>
+    <label data-fi="Nimi" data-en="Name">Nimi</label>
+    <input id="name" required>
+    <label data-fi="Sähköposti" data-en="Email">Sähköposti</label>
+    <input id="email" type="email" required>
+    <label data-fi="Puhelin" data-en="Phone">Puhelin</label>
+    <input id="phone" required>
+    <label data-fi="Kaupunki" data-en="City">Kaupunki</label>
+    <select id="city" required>
+      <option>Helsinki</option><option>Espoo</option><option>Tampere</option>
+    </select>
+    <label data-fi="Lisätiedot" data-en="Additional info">Lisätiedot</label>
+    <textarea id="notes"></textarea>
+    <div class="btnRow">
+      <button class="primary" id="confirm" data-fi="Lähetä varaus" data-en="Send booking">Lähetä varaus</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 PremiumDriver.fi — European Luxury Chauffeur Service
+  <a href="mailto:invest@premiumdriver.fi">Investor / Partner contact →</a>
+</footer>
+
+<script>
+/* Pakotetaan videon toisto, jos autoplay estetty */
+const video=document.getElementById('heroVideo');
+video.addEventListener('loadeddata',()=>{
+  video.muted=true;
+  const playPromise=video.play();
+  if(playPromise!==undefined){
+    playPromise.catch(()=>{setTimeout(()=>video.play(),1000);});
+  }
+});
+
+/* Kielet */
+const langBtns=document.querySelectorAll('.langs button');
+langBtns.forEach(b=>b.onclick=()=>{
+  langBtns.forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  const lang=b.dataset.lang;
+  document.querySelectorAll('[data-fi]').forEach(el=>{
+    el.textContent=el.getAttribute('data-'+lang)||el.textContent;
+  });
+});
+
+/* Varausnappi */
+document.getElementById('bookNow').onclick=()=>{
+ document.getElementById('booking').style.display='block';
+ window.scrollTo({top:document.getElementById('booking').offsetTop-50,behavior:'smooth'});
+};
+
+/* Vahvistus */
+document.getElementById('confirm').onclick=()=>{
+ alert("✅ Varaus lähetetty!\nKiitos, olemme yhteydessä pian.");
+};
+</script>
+</body>
+</html>
